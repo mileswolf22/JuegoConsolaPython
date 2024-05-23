@@ -3,7 +3,7 @@ from VJ_TRY.Clases_y_Personajes.Personaje import Personaje
 import time
 import sys
 import numpy as np
-import gamescreen
+
 from VJ_TRY.Tablero_y_Menus import Menus
 
 tablero = Menus()
