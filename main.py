@@ -1,5 +1,6 @@
 from VJ_TRY.Clases_y_Personajes.Personaje import Personaje
-
+from VJ_TRY.Cargar_Guardar.Juego import Juego
+from VJ_TRY.Clases_y_Personajes.Mochila import Mochila
 import time
 import sys
 import numpy as np
@@ -7,6 +8,8 @@ import numpy as np
 from VJ_TRY.Tablero_y_Menus import Menus
 
 tablero = Menus()
+juego = Juego
+mochi = Mochila
 
 personaje = Personaje(
     clase="",
@@ -21,7 +24,8 @@ personaje = Personaje(
     inteligencia=0,
     carisma=0,
     taza_de_crecimiento_magico=0,
-    taza_de_aprendizaje=0
+    taza_de_aprendizaje=0,
+    posicion=(0, 0)
 )
 
 
@@ -29,7 +33,6 @@ def imprimir_menu():
     print("\n¡Bienvenido al juego RPG!")
     print("1. Comenzar nueva partida")
     print("2. Cargar partida guardada")
-    print("3. Configuración")
     print("4. Salir del juego")
 
 
@@ -42,13 +45,6 @@ def animacion_cargando():
     print("\n¡Listo!\n")
 
 
-def configuracion():
-    print("\nConfiguración:")
-    print("1. Cambiar idioma")
-    print("2. Ajustar volumen")
-    print("3. Volver al menú principal")
-
-
 def menu():
     while True:
         imprimir_menu()
@@ -57,32 +53,27 @@ def menu():
         if opcion == "1":
             print("\n¡Preparándose para la aventura!")
             animacion_cargando()
-            personaje.crear_personaje()
+            id_persona = personaje.crear_personaje()
             matriz = np.array([["[  ]" for _ in range(10)] for _ in range(10)])
-            tablero.crear_mapa(matriz)
-
-            #Elegir el tipo de partida
+            table = tablero.crear_mapa(matriz)
+            posicion_jugador = table[0][0]  # Tomo el elemento interno de la posicion [0][0] de la matriz
+            contenido_posicion_anterior = posicion_jugador  # Para saber que habia antes de JG
+            table[0][0] = "[JG]"  # A partir de aqui la posicion [0][0] es sustiduida por JG
+            new_posicion_jugador = table[0][0]  # Nueva marca cuando jugador se posicione
+            print(f"Elemento en Posicion ={posicion_jugador}")  # Elemento existente previo al cambio JG
+            print(f"Posicion anterior ={contenido_posicion_anterior}")  # Indicar el elemento anterior para el juego
+            print(f"Posicion nueva ={new_posicion_jugador}")  # Nueva posicion indicada por JG
+            # Elegir el tipo de partida
+            mochila_persona = mochi.crear_mochila(id_persona)
+            juego.menu_juego(id_persona, table, mochila_persona, contenido_posicion_anterior, new_posicion_jugador)
 
             # Lógica para comenzar una nueva partida
         elif opcion == "2":
             print("\nCargando partida guardada...")
             animacion_cargando()
             # Lógica para cargar partida guardada
+
         elif opcion == "3":
-            while True:
-                configuracion()
-                opcion_config = input("Selecciona una opción de configuración: ")
-                if opcion_config == "1":
-                    print("\nIdioma cambiado.")
-                    # Lógica para cambiar idioma
-                elif opcion_config == "2":
-                    print("\nVolumen ajustado.")
-                    # Lógica para ajustar volumen
-                elif opcion_config == "3":
-                    break
-                else:
-                    print("Opción inválida. Inténtalo de nuevo.")
-        elif opcion == "4":
             print("\n¡Hasta luego!")
             break
         else:

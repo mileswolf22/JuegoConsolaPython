@@ -1,5 +1,5 @@
 from VJ_TRY.ataques.Armas import *
-from Personaje import *
+
 
 
 class Enemigo:

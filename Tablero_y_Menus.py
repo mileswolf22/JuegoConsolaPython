@@ -111,6 +111,72 @@ class Menus:
         for fila in matriz_tablero_:
             print(" ".join(fila))
 
+    def avanzar_tablero(self, matriz, posicion_anterior, posicion_actual, movimiento, dado):
+        # Codigo reestructurado
+
+        # Hacer que la posicion que JG abandona tome el valor de la posicion anterior
+
+        # Asegurarse de que las posiciones son listas o tuplas de enteros
+        if not isinstance(posicion_anterior, (list, tuple)) or len(posicion_anterior) != 2:
+            raise ValueError("posicion_anterior debe ser una lista o tupla de dos enteros")
+        if not isinstance(posicion_actual, str):
+            raise ValueError("posicion_actual debe ser una cadena")
+
+        # Obtener las posiciones anteriores y actuales
+        ant_pos = [int(posicion_anterior[0]), int(posicion_anterior[1])]
+        new_pos = posicion_actual
+
+        # Encontrar la posición actual del jugador en la matriz
+        pos = np.where(matriz == new_pos)
+        posiciones = list(zip(pos[0], pos[1]))
+
+        # Si hay múltiples posiciones, seleccionamos la primera
+        if len(posiciones) > 0:
+            i, j = posiciones[0]
+        else:
+            raise ValueError("No se encontró la posición actual en la matriz")
+
+        # Calcular la nueva posición basada en el movimiento y el dado
+        if movimiento == 'W':  # Arriba
+            i = max(i - dado, 0)
+        elif movimiento == 'A':  # Izquierda
+            j = max(j - dado, 0)
+        elif movimiento == 'S':  # Abajo
+            i = min(i + dado, len(matriz) - 1)
+        elif movimiento == 'D':  # Derecha
+            j = min(j + dado, len(matriz[0]) - 1)
+        else:
+            raise ValueError("Movimiento no válido. Use 'W', 'A', 'S' o 'D'.")
+
+        # Actualizar la matriz
+        matriz[ant_pos[0], ant_pos[1]] = "[  ]"  # Asumimos que "[  ]" es el estado vacío
+        matriz[i, j] = new_pos
+
+        return [i, j]
+
+        # Codigo Anterior
+
+        # ant_pos = posicion_anterior  # Mi intencion es conocer que habia antes del cambio del jugador
+        # new_pos = posicion_actual  # Nueva marca del jugador
+        # No tome en consideracion que los elementos dentro del mapa
+        # se repiten varias veces, causando que
+        # print(ant_pos)
+        # print(new_pos)
+        # print(matriz)
+        # pos = np.where(matriz == new_pos)
+        # print(f"pos: {pos}")
+        # posiciones = list(zip(pos[0], pos[1]))
+        # print(f"posiciones: {posiciones[0][1]}")
+        # if movimiento == 'W':
+        # i = max(posiciones[0] - dado, 0)  # Arriba
+        # elif movimiento == 'A':
+        # j = max(posiciones[1] - dado, 0)  # Izquierda
+        # elif movimiento == 'S':
+        # i = min(posiciones[0] + dado, 9)  # Abajo
+        # elif movimiento == 'D':
+        # j = min(posiciones[1] + dado, 9)  # Derecha
+        # return [i, j]
+
     def menu_batalla(self, vida_protagonista, vida_enemigo, nombre_protagonista, clase_protagonista, clase_enemigo):
 
         acciones = {

@@ -25,7 +25,8 @@ Mochila = Mochila
 
 
 class Personaje(Clases):
-    def __init__(self, hp, mp, ataque, defensa, defensa_magica, magia, resistencia, suerte, inteligencia, carisma,
+    def __init__(self, hp, mp, ataque, posicion, defensa, defensa_magica, magia, resistencia, suerte, inteligencia,
+                 carisma,
                  taza_de_crecimiento_magico, taza_de_aprendizaje, id_player=0, nombre="", nickname="", clase="",
                  nivel=0, experiencia=0, equipo_arma=None, equipo_armadura=None, mochila=None):
 
@@ -52,6 +53,7 @@ class Personaje(Clases):
         self.clase = clase
         self.nivel = nivel
         self.experiencia = experiencia
+        self.posicion = posicion
         self.equipo_arma = equipo_arma if equipo_arma is not None else []
         self.equipo_armadura = equipo_armadura if equipo_armadura is not None else []
         self.mochila = mochila if mochila is not None else Mochila.crear_mochila(self.id_player)
@@ -93,6 +95,7 @@ class Personaje(Clases):
         # Recodar que 1 toma el valor de la clave
         # Si el usuario digita "1" el codigo verificara que este "1" este en el clase_metodos
         if clase_personaje in clase_metodos:
+            self.posicion = (0, 0)
             print(f"\t\n---!!!Binvenido {self.nickname} el {clase_metodos[clase_personaje].clase}¡¡¡---")
             clase_reclutada = clase_metodos[clase_personaje].clase
             print("\t\tTus estadisticas de inicio son: \n")
@@ -107,6 +110,8 @@ class Personaje(Clases):
                 f"Suerte: {clase_metodos[clase_personaje].suerte} \t Inteligencia: {clase_metodos[clase_personaje].inteligencia}"
                 f"\tCarisma: {clase_metodos[clase_personaje].carisma}")
         contador_jugadores += 1
+
+        return self.id_player, self.posicion
 
     def guardar_jugador(self, cla):
         # El id toma el valor posicional para acceder a los datos
@@ -137,6 +142,3 @@ class Personaje(Clases):
             print(f"Mochila: {jugador['mochila']}")"""
         else:
             print("Jugador no encontrado.")
-
-
-
