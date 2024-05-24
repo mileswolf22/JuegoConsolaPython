@@ -28,6 +28,7 @@ dado = Menus()
 mochi = Mochila
 
 
+
 class Juego:
     def __init__(self, personaje, tablero):
         self.personaje = personaje
@@ -56,7 +57,7 @@ class Juego:
         pass
 
     @staticmethod
-    def menu_juego(id_, matriz, mochila, ant_posicion, new_posicion):
+    def menu_juego(id_, matriz, mochila, ant_posicion, new_posicion, contenido_ant):
         print("-------------Aventura-------------")
         print("----Cual es tu proxima accion?----")
         print("1. Tirar dados \t 3. Mochila")
@@ -66,15 +67,19 @@ class Juego:
 
         if accion == 1:
             dados = dado.lanzar_dado
-
+            menu.ver_mapa(matriz)
             movimiento = input("Hacia donde deseas moverte?\n \tW\nA   S   D\n Seleccion: ")
-            resultado = menu.avanzar_tablero(matriz, ant_posicion, new_posicion, movimiento, dados[1])
-            print(resultado)
+            resultado = menu.avanzar_tablero(matriz, ant_posicion, new_posicion, movimiento, dados[1], contenido_ant)
+            menu.ver_mapa(matriz)
+            menu.verificar_casilla(resultado[1])
+            print(resultado[0])
         elif accion == 2:
             menu.ver_mapa(matriz)
+
         elif accion == 3:
             mochi.mostrar_inventario(id_, mochila)
         elif accion == 4:
             pass
         elif accion == 5:
             pass
+

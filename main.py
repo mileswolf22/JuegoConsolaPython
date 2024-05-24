@@ -25,7 +25,7 @@ personaje = Personaje(
     carisma=0,
     taza_de_crecimiento_magico=0,
     taza_de_aprendizaje=0,
-    posicion=(0, 0)
+    posicion=[0, 0]
 )
 
 
@@ -56,16 +56,19 @@ def menu():
             id_persona = personaje.crear_personaje()
             matriz = np.array([["[  ]" for _ in range(10)] for _ in range(10)])
             table = tablero.crear_mapa(matriz)
-            posicion_jugador = table[0][0]  # Tomo el elemento interno de la posicion [0][0] de la matriz
-            contenido_posicion_anterior = posicion_jugador  # Para saber que habia antes de JG
+            posicion_jugador = id_persona[1]  # Tomo el elemento interno de la posicion [0][0] de la matriz
+            posicion_anterior = posicion_jugador  # Para saber que habia antes de JG
+            cont_pos_ant = table[0][0]
             table[0][0] = "[JG]"  # A partir de aqui la posicion [0][0] es sustiduida por JG
             new_posicion_jugador = table[0][0]  # Nueva marca cuando jugador se posicione
             print(f"Elemento en Posicion ={posicion_jugador}")  # Elemento existente previo al cambio JG
-            print(f"Posicion anterior ={contenido_posicion_anterior}")  # Indicar el elemento anterior para el juego
+            print(f"Posicion anterior ={posicion_anterior}")  # Indicar el elemento anterior para el juego
             print(f"Posicion nueva ={new_posicion_jugador}")  # Nueva posicion indicada por JG
             # Elegir el tipo de partida
-            mochila_persona = mochi.crear_mochila(id_persona)
-            juego.menu_juego(id_persona, table, mochila_persona, contenido_posicion_anterior, new_posicion_jugador)
+
+            # Encerrar esto en una bucle, el bucle terminara cuando la vida del jugador sea 0
+            mochila_persona = mochi.crear_mochila(id_persona[0])
+            juego.menu_juego(id_persona, table, mochila_persona, posicion_anterior, new_posicion_jugador, cont_pos_ant)
 
             # Lógica para comenzar una nueva partida
         elif opcion == "2":

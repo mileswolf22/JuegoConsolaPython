@@ -95,7 +95,7 @@ class Personaje(Clases):
         # Recodar que 1 toma el valor de la clave
         # Si el usuario digita "1" el codigo verificara que este "1" este en el clase_metodos
         if clase_personaje in clase_metodos:
-            self.posicion = (0, 0)
+            self.posicion = [0, 0]
             print(f"\t\n---!!!Binvenido {self.nickname} el {clase_metodos[clase_personaje].clase}¡¡¡---")
             clase_reclutada = clase_metodos[clase_personaje].clase
             print("\t\tTus estadisticas de inicio son: \n")

@@ -111,25 +111,39 @@ class Menus:
         for fila in matriz_tablero_:
             print(" ".join(fila))
 
-    def avanzar_tablero(self, matriz, posicion_anterior, posicion_actual, movimiento, dado):
-        # Codigo reestructurado
+    @staticmethod
+    def verificar_casilla(casilla_cont):
 
-        # Hacer que la posicion que JG abandona tome el valor de la posicion anterior
+        casilla = casilla_cont
+        if casilla == "[Po]":
+            print("Encontraste Pocion")
+        elif casilla == "[Ar]":
+            print("Encontraste Arma")
+        elif casilla == "[En]":
+            print("Encontraste Enemigo")
+        elif casilla == "[Es]":
+            print("Encontraste Escudo")
+        elif casilla == "[Fm]":
+            print("Encontraste Fuente Magica")
+        elif casilla == "[Cm]":
+            print("Encontraste Campamento")
+        elif casilla == "[  ]":
+            print("Vacio")
 
-        # Asegurarse de que las posiciones son listas o tuplas de enteros
-        if not isinstance(posicion_anterior, (list, tuple)) or len(posicion_anterior) != 2:
-            raise ValueError("posicion_anterior debe ser una lista o tupla de dos enteros")
-        if not isinstance(posicion_actual, str):
-            raise ValueError("posicion_actual debe ser una cadena")
-
+    def avanzar_tablero(self, matriz, posicion_anterior, posicion_actual, movimiento, dado, contenido_anterior):
         # Obtener las posiciones anteriores y actuales
-        ant_pos = [int(posicion_anterior[0]), int(posicion_anterior[1])]
+        ant_pos = posicion_anterior
         new_pos = posicion_actual
-
+        pos_contenido_anterior = contenido_anterior
+        print(f"Dado: {dado}")
+        print(f"Contenido Pos Anterior: {pos_contenido_anterior}")
         # Encontrar la posición actual del jugador en la matriz
         pos = np.where(matriz == new_pos)
         posiciones = list(zip(pos[0], pos[1]))
-
+        print(f"pos: {pos}")
+        print(f"Posiciones: {posiciones}")
+        posiciones_jugador = list(posiciones)
+        print(posiciones_jugador)
         # Si hay múltiples posiciones, seleccionamos la primera
         if len(posiciones) > 0:
             i, j = posiciones[0]
@@ -139,20 +153,27 @@ class Menus:
         # Calcular la nueva posición basada en el movimiento y el dado
         if movimiento == 'W':  # Arriba
             i = max(i - dado, 0)
+            print(f"Movimiento a: {i}, {j}")
         elif movimiento == 'A':  # Izquierda
             j = max(j - dado, 0)
+            print(f"Movimiento a: {i}, {j}")
         elif movimiento == 'S':  # Abajo
             i = min(i + dado, len(matriz) - 1)
+            print(f"Movimiento a: {i}, {j}")
         elif movimiento == 'D':  # Derecha
             j = min(j + dado, len(matriz[0]) - 1)
+            print(f"Movimiento a: {i}, {j}")
         else:
             raise ValueError("Movimiento no válido. Use 'W', 'A', 'S' o 'D'.")
 
         # Actualizar la matriz
-        matriz[ant_pos[0], ant_pos[1]] = "[  ]"  # Asumimos que "[  ]" es el estado vacío
+        elemento_antes_pos_jg = matriz[i, j]
+        matriz[ant_pos[0], ant_pos[1]] = f"{pos_contenido_anterior}"  # Asumimos que "[  ]" es el estado vacío
         matriz[i, j] = new_pos
 
-        return [i, j]
+        print(f"Antes de JG: {elemento_antes_pos_jg}")
+
+        return [i, j], elemento_antes_pos_jg
 
         # Codigo Anterior
 
@@ -229,3 +250,4 @@ class Menus:
 
         else:
             print(f"Comienza {clase_enemigo}")
+
