@@ -130,12 +130,14 @@ class Menus:
         elif casilla == "[  ]":
             print("Vacio")
 
+    # Primer movimiento
     def avanzar_tablero(self, matriz, posicion_anterior, posicion_actual, movimiento, dado, contenido_anterior):
         # Obtener las posiciones anteriores y actuales
         ant_pos = posicion_anterior
         new_pos = posicion_actual
         pos_contenido_anterior = contenido_anterior
         print(f"Dado: {dado}")
+        print(f"Posicion anterior: {ant_pos}")
         print(f"Contenido Pos Anterior: {pos_contenido_anterior}")
         # Encontrar la posición actual del jugador en la matriz
         pos = np.where(matriz == new_pos)
@@ -168,7 +170,7 @@ class Menus:
 
         # Actualizar la matriz
         elemento_antes_pos_jg = matriz[i, j]
-        matriz[ant_pos[0], ant_pos[1]] = f"{pos_contenido_anterior}"  # Asumimos que "[  ]" es el estado vacío
+        matriz[ant_pos[0], ant_pos[1]] = "[  ]"  # Asumimos que "[  ]" es el estado vacío
         matriz[i, j] = new_pos
 
         print(f"Antes de JG: {elemento_antes_pos_jg}")
@@ -198,6 +200,9 @@ class Menus:
         # j = min(posiciones[1] + dado, 9)  # Derecha
         # return [i, j]
 
+    @staticmethod
+    def actualizar_movimiento(posicion_anterior, dado):
+        pass
     def menu_batalla(self, vida_protagonista, vida_enemigo, nombre_protagonista, clase_protagonista, clase_enemigo):
 
         acciones = {

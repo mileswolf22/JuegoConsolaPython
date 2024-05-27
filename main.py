@@ -68,7 +68,8 @@ def menu():
 
             # Encerrar esto en una bucle, el bucle terminara cuando la vida del jugador sea 0
             mochila_persona = mochi.crear_mochila(id_persona[0])
-            juego.menu_juego(id_persona, table, mochila_persona, posicion_anterior, new_posicion_jugador, cont_pos_ant)
+            while True:
+                juego.menu_juego(id_persona, table, mochila_persona, posicion_anterior, new_posicion_jugador, cont_pos_ant)
 
             # Lógica para comenzar una nueva partida
         elif opcion == "2":
